@@ -22,7 +22,7 @@ public class Db {
 			stmt = con.createStatement();
 			create_db();
 			String [] t = {"patient", "doctor", "examination", "reservation", "sickroom", "hospitalization"};
-			PreparedStatement pst = con.prepareStatement("INSERT INTO Patient VALUES(?, ?, ?, ?, ?)");
+			PreparedStatement pst = con.prepareStatement("INSERT INTO patient VALUES(?, ?, ?, ?, ?)");
 			PreparedStatement pst2 = con.prepareStatement("INSERT INTO doctor VALUES(?, ?, ?, ?, ?)");
 			PreparedStatement pst3 = con.prepareStatement("INSERT INTO examination VALUES(?, ?)");
 			PreparedStatement pst4 = con.prepareStatement("INSERT INTO reservation VALUES(?, ?, ?, ?, ?, ?, ?)");
@@ -43,7 +43,9 @@ public class Db {
 	}
 	
 	private static void add_data(String t, PreparedStatement pst) throws SQLException, IOException {
-		String path = System.getProperty("user.dir") + "/지급자료/" + t + ".txt";
+		//String path = System.getProperty("user.dir") + "/지급자료/" + t + ".txt";
+		String path = System.getProperty("user.dir") + "/2020_1/지급자료/" + t + ".txt"; // 상하 전용
+		System.out.println(path);
 		List<String> data = Files.readAllLines(Paths.get(path));
 		
 		for (int i = 1; i < data.size(); i++) {			
