@@ -4,10 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,6 +19,27 @@ import javax.swing.JOptionPane;
 
 @SuppressWarnings("serial")
 public class Base extends JFrame {
+	
+	public static int number;
+	public static String name;
+	public static ArrayList<JFrame> frames = new ArrayList<>();
+	public static WindowListener defaultWinListener = new WindowListener() {
+		@Override
+		public void windowClosing(WindowEvent e) {
+			int size = frames.size() - 1;
+			
+			frames.get(size).dispose();
+			frames.remove(size);
+			frames.get(size - 1).setVisible(true);
+		}
+		
+		public void windowOpened(WindowEvent e) {}
+		public void windowIconified(WindowEvent e) {}
+		public void windowDeiconified(WindowEvent e) {}
+		public void windowDeactivated(WindowEvent e) {}
+		public void windowClosed(WindowEvent e) {}
+		public void windowActivated(WindowEvent e) {}
+	};
 	
 	public static Connection con;
 	public static Statement state;

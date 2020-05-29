@@ -43,9 +43,8 @@ public class Db {
 	}
 	
 	private static void add_data(String t, PreparedStatement pst) throws SQLException, IOException {
-		//String path = System.getProperty("user.dir") + "/지급자료/" + t + ".txt";
-		String path = System.getProperty("user.dir") + "/2020_1/지급자료/" + t + ".txt"; // 상하 전용
-		System.out.println(path);
+		String path = System.getProperty("user.dir") + "\\지급자료\\" + t + ".txt";
+//		String path = System.getProperty("user.dir") + "\\2020_1\\지급자료\\" + t + ".txt";
 		List<String> data = Files.readAllLines(Paths.get(path));
 		
 		for (int i = 1; i < data.size(); i++) {			
@@ -74,7 +73,7 @@ public class Db {
 		stmt.execute("GRANT INSERT, SELECT, DELETE, SELECT on movie.* to 'user'@'%'");
 		
 		stmt.execute("USE hospital");
-		stmt.execute("CREATE TABLE Patient(p_no int PRIMARY KEY NOT NULL auto_increment, p_name varchar(10), p_id varchar(15), p_pw varchar(10), p_bd date)");
+		stmt.execute("CREATE TABLE patient(p_no int PRIMARY KEY NOT NULL auto_increment, p_name varchar(10), p_id varchar(15), p_pw varchar(10), p_bd date)");
 		stmt.execute("CREATE TABLE doctor(d_no int primary key not null auto_increment, d_section varchar(10), d_name varchar(15), d_day varchar(1), d_time varchar(2))");
 		stmt.execute("CREATE TABLE examination(e_no int primary key not null auto_increment, e_name varchar(10))");
 		stmt.execute("create table reservation(r_no int primary key not null auto_increment, p_no int, d_no int, r_section varchar(10), r_date varchar(14), r_time varchar(10), e_no int, foreign key(p_no) references Patient(p_no), foreign key(d_no) references doctor(d_no), foreign key(e_no) references examination(e_no))");

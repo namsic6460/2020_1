@@ -151,7 +151,7 @@ public class RegisterForm extends Base {
 	}
 	
 	private boolean matchPattern(String string) {	
-		return Pattern.matches("^[0-9a-zA-Z!@#$%^&*(),.?\\\\\\\":{}|<>]*$", string);
+		return Pattern.matches("^[0-9a-zA-Z!@#$%^&*(),.?\\\"';:{}|<>]*$", string);
 	}
 	
 }

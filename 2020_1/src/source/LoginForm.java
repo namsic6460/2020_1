@@ -40,7 +40,7 @@ public class LoginForm extends Base {
 		jp.add(texts[1]);
 		c_cp.add(jp);
 		
-		cp.add(createButton("로그인", e -> loginTest()), BorderLayout.EAST);
+		cp.add(createButton("로그인", e -> checkLogin()), BorderLayout.EAST);
 		cp.add(c_cp);
 		cp.setBorder(new EmptyBorder(8, 20, 0, 15));
 		
@@ -60,17 +60,11 @@ public class LoginForm extends Base {
 		add(sp, BorderLayout.SOUTH);
 	}
 	
-	private void loginTest() {
+	private void checkLogin() {
 		String[] inputText = { texts[0].getText(), new String(((JPasswordField) texts[1]).getPassword()) };
 		
 		if(inputText[0].equals("") || inputText[1].equals("")) {
 			showDialog(this, "빈칸이 존재합니다.", "메시지", JOptionPane.ERROR_MESSAGE);
-			return;
-		}
-		
-		else if(inputText[0].equals("admin") && inputText[1].equals("1234")) {
-			dispose();
-			new AdminForm().setVisible(true);;
 			return;
 		}
 		
@@ -85,7 +79,12 @@ public class LoginForm extends Base {
 				if(rs.next()) {
 					dispose();
 					
-					new MainForm().setVisible(true);
+					Base.number = rs.getInt("p_no");
+					Base.name = rs.getString("p_name");
+					
+					MainForm main = new MainForm();
+					Base.frames.add(main);
+					main.setVisible(true);
 				}
 				
 				else {
