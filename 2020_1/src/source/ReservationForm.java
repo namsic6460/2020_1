@@ -312,7 +312,8 @@ public class ReservationForm extends Base {
 		}
 		
 		Image image = icon.getImage();
-		image = image.getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(), Image.SCALE_SMOOTH);
+		if(image != null)
+			image = image.getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(), Image.SCALE_SMOOTH);
 		imageLabel.setIcon(new ImageIcon(image));
 	}
 	
