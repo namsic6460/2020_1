@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.JLabel;
@@ -65,21 +66,28 @@ public class MainForm extends Base {
 		dispose();
 		
 		Base form = null;
+		int h_no = 0;
+		String h_sday = null;
 		boolean flag = false;
 		try {
-			PreparedStatement pstmt = con.prepareStatement("select h_fday from hospitalization where p_no = ? and h_fday = '0'");
+			PreparedStatement pstmt = con.prepareStatement("select h_no, h_sday, h_fday from hospitalization where p_no = ? and h_fday = '0'");
 			pstmt.setInt(1, number);
+			ResultSet rs = pstmt.executeQuery();
 			
-			if(pstmt.executeQuery().next())
-				flag = true;
+			if(rs.next()) {
+				h_no = rs.getInt("h_no");
+				h_sday = rs.getString("h_sday");
+				if(rs.getString("h_fday").equals("0"))
+					flag = true;
+			}
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
 		
 		if(flag)
-			form = new DischargingForm();
+			form = new DischargingForm(h_no, h_sday);
 		else
-			form = new HopitalizingForm();
+			form = new HospitalizingForm();
 		
 		Base.frames.add(form);
 		form.setVisible(true);
