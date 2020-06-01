@@ -109,13 +109,4 @@ public class MainForm extends Base {
 		analysis.setVisible(true);
 	}
 	
-	public static void main(String[] args) {
-		Base.number = 1;
-		Base.name = "박가람";
-		
-		MainForm main = new MainForm();
-		Base.frames.add(main);
-		main.setVisible(true);
-	}
-	
 }
