@@ -32,7 +32,7 @@ public class HospitalizingForm extends Base {
 	JComboBox<String> floor = new JComboBox<String>();
 	JButton find = new JButton();
 	String clickedButton;
-	public JTextField[] texts = new JTextField[2];
+	JTextField[] texts = new JTextField[2];
 	JFrame bed;
 	String date;
 	
@@ -74,10 +74,10 @@ public class HospitalizingForm extends Base {
 		
 		for(int i = 1; i <= 6; i++)
 			floor.addItem(Integer.toString(i));
-		floor.addActionListener(e -> chooseFloor());
 		np.add(floor);
 		
 		find.setText("검색");
+		find.addActionListener(e -> chooseFloor());
 		np.add(find);
 		
 		add(np, BorderLayout.NORTH);
@@ -100,8 +100,7 @@ public class HospitalizingForm extends Base {
 		texts[1] = jt;
 		sp.add(jt);
 		
-		JButton jb = new JButton("예약");
-		jb.addActionListener(e -> reservate());
+		JButton jb = createButton("예약", e -> reservate());
 		sp.add(jb);
 		
 		add(sp, BorderLayout.SOUTH);
@@ -133,11 +132,10 @@ public class HospitalizingForm extends Base {
 				jl.setText(currentFloor + "10호");
 			
 			temp.add(jl);
-			
-			JButton jb = new JButton();
-			jb.setPreferredSize(new Dimension(100, 175));
+
 			String text = jl.getText();
-			jb.addActionListener(e -> chooseRoom(text));
+			JButton jb = createButton("", e -> chooseRoom(text));
+			jb.setPreferredSize(new Dimension(100, 175));
 			
 			temp.add(jb);
 			
@@ -153,6 +151,9 @@ public class HospitalizingForm extends Base {
 	}
 	
 	private void chooseRoom(String text) {
+		if(bed != null)
+			bed.dispose();
+		
 		bed = new BedForm(this, text);
 		bed.setVisible(true);
 	}

@@ -41,8 +41,8 @@ public class ReservationForm extends Base {
 	public JTextField date = new JTextField();
 	public CalendarForm cal;
 	JTextField countTextField = new JTextField();
-	JTable jt = new JTable();
-	JScrollPane table = new JScrollPane();
+	JTable table = new JTable();
+	JScrollPane js = new JScrollPane();
 	String[] checkList = {"선택안함", "CT검사", "MRI검사", "UBT검사", "X-RAY검사", "초음파검사"};
 	JLabel imageLabel = new JLabel();
 	ReservationForm reservation = this;
@@ -107,6 +107,9 @@ public class ReservationForm extends Base {
 		date.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
+				if(cal != null)
+					cal.dispose();
+				
 				cal = new CalendarForm(reservation);
 				cal.setVisible(true);
 			}
@@ -135,7 +138,7 @@ public class ReservationForm extends Base {
 		
 		String[] header = {"진료과", "의사", "진료날짜", "시간", "시간대"};
 		String[][] contents = {};
-		jt = new JTable(new DefaultTableModel(contents, header)) {
+		table = new JTable(new DefaultTableModel(contents, header)) {
 			public boolean isCellEditable(int row, int column) {                
 	                return false;               
 	        };
@@ -143,18 +146,18 @@ public class ReservationForm extends Base {
 		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
 		dtcr.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		jt.getTableHeader().setReorderingAllowed(false);
-		for(int i = 0; i < 5; i++)
-			jt.getColumnModel().getColumn(i).setCellRenderer(dtcr);
+		table.getTableHeader().setReorderingAllowed(false);
+		for(int i = 0; i < header.length; i++)
+			table.getColumnModel().getColumn(i).setCellRenderer(dtcr);
 		
-		jt.getColumnModel().getColumn(0).setPreferredWidth(40);
-		jt.getColumnModel().getColumn(4).setPreferredWidth(40);
+		table.getColumnModel().getColumn(0).setPreferredWidth(40);
+		table.getColumnModel().getColumn(4).setPreferredWidth(40);
 		
-		table = new JScrollPane(jt);
-		table.setPreferredSize(new Dimension(400, 275));
+		js = new JScrollPane(table);
+		js.setPreferredSize(new Dimension(400, 275));
 		loadTable();
 		
-		c_cp1.add(table, BorderLayout.NORTH);
+		c_cp1.add(js, BorderLayout.NORTH);
 		cp.add(c_cp1);
 
 		JPanel c_cp2 = new JPanel(new FlowLayout());
@@ -223,7 +226,7 @@ public class ReservationForm extends Base {
 	}
 	
 	public void loadTable() {
-		DefaultTableModel defaultModel = (DefaultTableModel) jt.getModel();
+		DefaultTableModel defaultModel = (DefaultTableModel) table.getModel();
 		defaultModel.setRowCount(0);
 		
 		if(date.getText().equals("") || boxes[1].getItemCount() == 0)
@@ -271,7 +274,7 @@ public class ReservationForm extends Base {
 						defaultModel.addRow(row);
 					}
 
-					jt.setModel(defaultModel);
+					table.setModel(defaultModel);
 				}
 			}
 		} catch(SQLException e) {
@@ -314,7 +317,7 @@ public class ReservationForm extends Base {
 	}
 	
 	private void reservate() {
-		if(jt.getSelectedRow() == -1) {
+		if(table.getSelectedRow() == -1) {
 			showDialog(this, "예약할 시간을 정해주세요.", "메시지", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
@@ -334,7 +337,7 @@ public class ReservationForm extends Base {
 				e.printStackTrace();
 			}
 
-			String time = jt.getValueAt(jt.getSelectedRow(), 3).toString();
+			String time = table.getValueAt(table.getSelectedRow(), 3).toString();
 			while(rs.next()) {
 				int p_no = rs.getInt("p_no");
 				String r_section = rs.getString("r_section");
