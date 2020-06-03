@@ -1,6 +1,7 @@
 package source;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -37,20 +38,19 @@ public class RegisterForm extends Base {
 		for(JTextField text : texts)
 			text.setFont(new Font(text.getFont().getFontName(), Font.PLAIN, 15));
 		
-		JPanel jp = new JPanel(new FlowLayout());
-		jp.add(new JLabel("          이름", JLabel.LEFT));
-		jp.add(texts[0]);
-		n_np.add(jp);
-		
-		jp = new JPanel(new FlowLayout());
-		jp.add(new JLabel("     아이디", JLabel.LEFT));
-		jp.add(texts[1]);
-		n_np.add(jp);
-		
-		jp = new JPanel(new FlowLayout());
-		jp.add(new JLabel("비밀번호", JLabel.LEFT));
-		jp.add(texts[2]);
-		n_np.add(jp);
+		String[] str = "이름,아이디,비밀번호".split(",");
+		JPanel jp;
+		JLabel jl;
+		for(int i = 0; i < 3; i++) {
+			jp = new JPanel(new FlowLayout());
+			jl = new JLabel(str[i], JLabel.RIGHT);
+			jl.setPreferredSize(new Dimension(60, 20));
+			
+			jp.add(jl);
+			jp.add(texts[i]);
+			
+			n_np.add(jp);
+		}
 		
 		np.add(n_np);		
 		add(np, BorderLayout.NORTH);
