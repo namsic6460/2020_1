@@ -36,7 +36,6 @@ public class Db {
 			add_data(t[4], pst5);
 			add_data(t[5], pst6);
 			JOptionPane.showMessageDialog(null, "db구축 성공");
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -207,7 +207,7 @@ public class ReservationForm extends Base {
 			while(rs.next())
 				boxes[1].addItem(rs.getString("d_name"));
 			
-			pstmt = con.prepareStatement("select count(r_section) as count from reservation where p_no = ? and r_section = ?");
+			pstmt = con.prepareStatement("select p_no, count(r_section) as count from reservation where p_no = ? and r_section = ?");
 			pstmt.setString(1, Integer.toString(number));
 			pstmt.setString(2, section);
 			rs = pstmt.executeQuery();
@@ -242,7 +242,7 @@ public class ReservationForm extends Base {
 				e.printStackTrace();
 			}
 			
-			format = new SimpleDateFormat("EEE", Locale.KOREAN);
+			format = new SimpleDateFormat("E", Locale.KOREAN);
 			String day = format.format(date);
 			
 			PreparedStatement pstmt = con.prepareStatement("select d_no, d_time from doctor where d_name = ? and d_day = ?");
@@ -312,8 +312,12 @@ public class ReservationForm extends Base {
 		}
 		
 		Image image = icon.getImage();
-		if(image != null)
-			image = image.getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(), Image.SCALE_SMOOTH);
+		if(image == null) {
+			imageLabel.setIcon(new ImageIcon());
+			return;
+		}
+		
+		image = image.getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(), Image.SCALE_SMOOTH);
 		imageLabel.setIcon(new ImageIcon(image));
 	}
 	

@@ -41,6 +41,8 @@ public class CurrentForm extends Base {
 				return false;
 			}
 		};
+		table.getTableHeader().setReorderingAllowed(false);
+		
 		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
 		dtcr.setHorizontalAlignment(SwingConstants.CENTER);
 		
@@ -107,6 +109,8 @@ public class CurrentForm extends Base {
 			
 			DefaultTableModel defaultModel = (DefaultTableModel) table.getModel();
 			defaultModel.removeRow(row);
+			table.setModel(defaultModel);
+			table.validate();
 			
 			showDialog(this, "취소되었습니다", "메시지", JOptionPane.INFORMATION_MESSAGE);
 		} catch(SQLException e) {
